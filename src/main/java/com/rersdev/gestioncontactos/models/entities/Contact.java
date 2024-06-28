@@ -1,35 +1,39 @@
 package com.rersdev.gestioncontactos.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 @Entity
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @Table(name = "CONTACTS")
 public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @Column(unique = true, updatable = false)
+    UUID id;
 
-    private String img;
+    String img;
 
-    private String name;
+    String name;
 
-    @ManyToOne
-    @JoinColumn(name = "COUNTRY_CODE")
-    private Country country;
+    String title;
 
-    @OneToMany(mappedBy = "contact", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<Address> addresses;
+    String email;
 
-    @OneToMany(mappedBy = "contact", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<Phone> phones;
+    String phone;
+
+    String address;
+
+    String status;
 }
