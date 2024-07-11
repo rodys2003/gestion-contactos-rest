@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 
@@ -31,5 +32,10 @@ public class ContactController {
     public ResponseEntity<Page<ShowContactDataDTO>> getAllContacts(@RequestParam(value = "page", defaultValue = "0") int page,
                                                                    @RequestParam(value = "size", defaultValue = "5") int size){
         return ResponseEntity.ok().body(contactService.getAllContacts(page, size));
+    }
+
+    @GetMapping("/{id} ")
+    public ResponseEntity<ShowContactDataDTO> getContactById(@PathVariable("id") UUID id){
+        return ResponseEntity.ok().body(contactService.getContactById(id));
     }
 }
