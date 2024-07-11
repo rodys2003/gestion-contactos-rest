@@ -38,4 +38,10 @@ public class ContactController {
     public ResponseEntity<ShowContactDataDTO> getContactById(@PathVariable("id") UUID id){
         return ResponseEntity.ok().body(contactService.getContactById(id));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ShowContactDataDTO> updateContact(@PathVariable("id") UUID id,
+                                                            @RequestBody InsertContactDataDTO updatedContact){
+        return ResponseEntity.ok().body(contactService.updateContact(updatedContact, id));
+    }
 }
