@@ -1,10 +1,11 @@
 package com.rersdev.gestioncontactos.controllers;
 
 import com.rersdev.gestioncontactos.configuration.util.LocalDirectory;
-import com.rersdev.gestioncontactos.controllers.DTO.InsertContactDataDTO;
-import com.rersdev.gestioncontactos.controllers.DTO.ShowContactDataDTO;
+import com.rersdev.gestioncontactos.controllers.dto.InsertContactDataDTO;
+import com.rersdev.gestioncontactos.controllers.dto.ShowContactDataDTO;
 import com.rersdev.gestioncontactos.services.IContactService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,21 +21,16 @@ import java.util.UUID;
 import static org.springframework.util.MimeTypeUtils.IMAGE_JPEG_VALUE;
 import static org.springframework.util.MimeTypeUtils.IMAGE_PNG_VALUE;
 
+@RequiredArgsConstructor
+
 @RestController
 @RequestMapping("/contacts")
 public class ContactController {
 
     private final IContactService contactService;
-    private final String imageDirectory;
-
-    @Autowired
-    public ContactController(IContactService contactService) {
-        this.contactService = contactService;
-        this.imageDirectory = LocalDirectory.getImageDirectory();
-    }
 
     @PostMapping
-    public ResponseEntity<String> registerContact(@RequestBody InsertContactDataDTO contactDataDTO) throws URISyntaxException {
+    public ResponseEntity<String> registerContact(@RequestBody @Valid InsertContactDataDTO contactDataDTO) throws URISyntaxException {
         contactService.createContact(contactDataDTO);
         return ResponseEntity
                 .created(new URI("api/v1/contacts"))
@@ -54,8 +50,14 @@ public class ContactController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ShowContactDataDTO> updateContact(@PathVariable UUID id,
-                                                            @RequestBody InsertContactDataDTO updatedContact){
+                                                            @RequestBody @Valid InsertContactDataDTO updatedContact){
         return ResponseEntity.ok().body(contactService.updateContact(updatedContact, id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteContactById(@PathVariable UUID id){
+        contactService.deleteContact(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/image")
@@ -65,6 +67,6 @@ public class ContactController {
 
     @GetMapping(path = "image/{filename}", produces = {IMAGE_PNG_VALUE,IMAGE_JPEG_VALUE})
     public byte[] getImage(@PathVariable("filename") String filename) throws IOException {
-        return Files.readAllBytes(Paths.get(imageDirectory + filename));
+        return Files.readAllBytes(Paths.get(LocalDirectory.getImageDirectory() + filename));
     }
 }
