@@ -1,7 +1,7 @@
 package com.rersdev.gestioncontactos.services;
 
-import com.rersdev.gestioncontactos.controllers.DTO.InsertContactDataDTO;
-import com.rersdev.gestioncontactos.controllers.DTO.ShowContactDataDTO;
+import com.rersdev.gestioncontactos.controllers.dto.InsertContactDataDTO;
+import com.rersdev.gestioncontactos.controllers.dto.ShowContactDataDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 

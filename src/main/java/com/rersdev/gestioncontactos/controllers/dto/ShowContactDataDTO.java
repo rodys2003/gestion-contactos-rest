@@ -1,4 +1,4 @@
-package com.rersdev.gestioncontactos.controllers.DTO;
+package com.rersdev.gestioncontactos.controllers.dto;
 
 import java.io.Serializable;
 import java.util.UUID;

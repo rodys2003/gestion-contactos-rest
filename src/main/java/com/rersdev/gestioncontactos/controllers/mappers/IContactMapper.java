@@ -1,7 +1,7 @@
 package com.rersdev.gestioncontactos.controllers.mappers;
 
-import com.rersdev.gestioncontactos.controllers.DTO.InsertContactDataDTO;
-import com.rersdev.gestioncontactos.controllers.DTO.ShowContactDataDTO;
+import com.rersdev.gestioncontactos.controllers.dto.InsertContactDataDTO;
+import com.rersdev.gestioncontactos.controllers.dto.ShowContactDataDTO;
 import com.rersdev.gestioncontactos.models.entities.Contact;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

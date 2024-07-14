@@ -1,4 +1,4 @@
-package com.rersdev.gestioncontactos.controllers.DTO;
+package com.rersdev.gestioncontactos.controllers.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -23,7 +23,7 @@ public record InsertContactDataDTO(
         @NotBlank(message = "Phone number is required")
         @Size(min = 10, message = "The phone number must be at least 10 characters long.")
         @Size(max = 14, message = "The phone cannot exceed 14 characters.")
-        @Pattern(regexp = "^(\\+)?[0-9]+$")
+        @Pattern(regexp = "^(\\+)?\\d+$", message = "The phone number only accept numbers")
         String phone,
 
         @Size(min = 15, message = "The address must be at least 15 characters long.")
