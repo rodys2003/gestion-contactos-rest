@@ -14,7 +14,5 @@ public interface IContactMapper {
 
     ShowContactDataDTO toDTO(Contact contact);
 
-    Contact toEntity(ShowContactDataDTO showContactDataDTO);
-
     void updateContactFromDTO(@MappingTarget Contact contact, InsertContactDataDTO updatedContact);
 }
