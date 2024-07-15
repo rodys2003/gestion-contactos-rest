@@ -11,4 +11,8 @@ import java.util.UUID;
 public interface IContactRepository extends JpaRepository<Contact, UUID> {
 
     Optional<Contact> findById(UUID id);
+
+    boolean existsByPhone(String phoneNumber);
+
+    boolean existsById(UUID id);
 }
