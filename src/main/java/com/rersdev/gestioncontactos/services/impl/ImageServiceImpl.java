@@ -1,5 +1,6 @@
 package com.rersdev.gestioncontactos.services.impl;
 
+import com.rersdev.gestioncontactos.configuration.exception.contact.ImageStorageException;
 import com.rersdev.gestioncontactos.configuration.util.LocalDirectory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +34,7 @@ public class ImageServiceImpl {
             Files.copy(image.getInputStream(), fileStorageLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
             return ServletUriComponentsBuilder.fromCurrentContextPath().path("/contacts/image/" + filename).toUriString();
         } catch (IOException e) {
-            throw new RuntimeException("Unable to save image", e);
+            throw new ImageStorageException("Unable to save image", e);
         }
     }
 }
