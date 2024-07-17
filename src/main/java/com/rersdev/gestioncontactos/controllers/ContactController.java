@@ -124,8 +124,20 @@ public class ContactController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(
+            summary = "Allows to upload a contact image",
+            description = "You must add the id of the contact to upload the image. You must send a file type image"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Contact image uploaded successfully"),
+                    @ApiResponse(responseCode = "404", description = "Contact not found", content = {@Content}),
+                    @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content})
+            }
+    )
     @PutMapping("/image")
-    public ResponseEntity<String> uploadImage(@RequestParam UUID id, @RequestParam MultipartFile file) {
+    public ResponseEntity<String> uploadImage(@RequestParam UUID id,
+                                              @RequestParam MultipartFile file) {
         return ResponseEntity.ok().body(contactService.uploadImage(file, id));
     }
 
