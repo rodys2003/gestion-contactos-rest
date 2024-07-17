@@ -39,7 +39,7 @@ public class ContactController {
     private final IContactService contactService;
 
     @Operation(
-            summary = "Register contacts"
+            summary = "Allows to register contacts"
     )
     @ApiResponses(
             value = {
@@ -59,7 +59,7 @@ public class ContactController {
     }
 
     @Operation(
-            summary = "Get all registered contacts",
+            summary = "Allows get all registered contacts",
             description = "Get all contacts in a paginated list"
     )
     @ApiResponses(
@@ -79,7 +79,7 @@ public class ContactController {
     }
 
     @Operation(
-            summary = "Get contact by id"
+            summary = "Allows to get contacts by id"
     )
     @ApiResponses(
             value = {
@@ -94,6 +94,17 @@ public class ContactController {
         return ResponseEntity.ok().body(contactService.getContactById(id));
     }
 
+    @Operation(
+            summary = "Allows to update contacts"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Contact updated successfully",
+                            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = InsertContactDataDTO.class))}),
+                    @ApiResponse(responseCode = "400", description = "Invalid input data", content = {@Content}),
+                    @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content})
+            }
+    )
     @PutMapping("/{id}")
     public ResponseEntity<ShowContactDataDTO> updateContact(@PathVariable UUID id,
                                                             @RequestBody @Valid InsertContactDataDTO updatedContact) {
