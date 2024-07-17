@@ -30,7 +30,7 @@ import static org.springframework.util.MimeTypeUtils.IMAGE_JPEG_VALUE;
 import static org.springframework.util.MimeTypeUtils.IMAGE_PNG_VALUE;
 
 @RequiredArgsConstructor
-@Tag(name = "Contacts", description = "manage all endpoints about contacts")
+@Tag(name = "Contacts", description = "Manage all endpoints about contacts")
 
 @RestController
 @RequestMapping("/contacts")
@@ -78,6 +78,17 @@ public class ContactController {
         return ResponseEntity.ok().body(contactService.getAllContacts(page, size));
     }
 
+    @Operation(
+            summary = "Get contact by id"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Contact found successfully",
+                            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ShowContactDataDTO.class))}),
+                    @ApiResponse(responseCode = "404", description = "Contact not found", content = {@Content}),
+                    @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content})
+            }
+    )
     @GetMapping("/{id}")
     public ResponseEntity<ShowContactDataDTO> getContactById(@PathVariable UUID id) {
         return ResponseEntity.ok().body(contactService.getContactById(id));
