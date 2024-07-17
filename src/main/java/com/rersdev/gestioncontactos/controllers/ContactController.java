@@ -126,7 +126,7 @@ public class ContactController {
 
     @Operation(
             summary = "Allows to upload a contact image",
-            description = "You must add the id of the contact to upload the image. You must send a file type image"
+            description = "You must add the id of the contact to upload the image. You must send a file type image. Returns the name of the saved image"
     )
     @ApiResponses(
             value = {
@@ -141,6 +141,17 @@ public class ContactController {
         return ResponseEntity.ok().body(contactService.uploadImage(file, id));
     }
 
+    @Operation(
+            summary = "Allows to obtain the image of a contact",
+            description = "You must add the name under which the image was saved."
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Image obtained successfully"),
+                    @ApiResponse(responseCode = "404", description = "Image not found", content = {@Content}),
+                    @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content})
+            }
+    )
     @GetMapping(path = "image/{filename}", produces = {IMAGE_PNG_VALUE, IMAGE_JPEG_VALUE})
     public byte[] getImage(@PathVariable("filename") String filename) throws IOException {
         return Files.readAllBytes(Paths.get(LocalDirectory.getImageDirectory() + filename));
