@@ -6,7 +6,6 @@ import com.rersdev.gestioncontactos.controllers.dto.ShowContactDataDTO;
 import com.rersdev.gestioncontactos.services.IContactService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -68,12 +67,10 @@ public class ContactController {
                     @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content}),
             }
     )
-    @Parameters({
-            @Parameter(name = "page", description = "Page number", example = "0"),
-            @Parameter(name = "size", description = "Size of the page", example = "10")
-    })
     @GetMapping
-    public ResponseEntity<Page<ShowContactDataDTO>> getAllContacts(@RequestParam(value = "page", defaultValue = "0") int page,
+    public ResponseEntity<Page<ShowContactDataDTO>> getAllContacts(@Parameter(name = "page", description = "Page number", example = "0")
+                                                                   @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                   @Parameter(name = "size", description = "Size of the page", example = "10")
                                                                    @RequestParam(value = "size", defaultValue = "5") int size) {
         return ResponseEntity.ok().body(contactService.getAllContacts(page, size));
     }
@@ -111,6 +108,16 @@ public class ContactController {
         return ResponseEntity.ok().body(contactService.updateContact(updatedContact, id));
     }
 
+    @Operation(
+            summary = "Allows to delete contacts"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "204", description = "Contact delete successfully"),
+                    @ApiResponse(responseCode = "404", description = "Contact does not exists"),
+                    @ApiResponse(responseCode = "500", description = "Internal server error")
+            }
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteContactById(@PathVariable UUID id) {
         contactService.deleteContact(id);
